@@ -1,109 +1,107 @@
 # Randee Update (`randee.update`)
 
-Marketplace-backed update module for Bitrix projects.
+Модуль обновлений для проектов на Bitrix, работающий через marketplace.
 
-## What this module is for
+## Для чего нужен этот модуль
 
-`randee.update` connects a Bitrix site to the Randee marketplace service (`updates.c0l.ru`).
-It lets the site:
+`randee.update` подключает сайт на Bitrix к сервису Randee marketplace (`updates.c0l.ru`).
+Он позволяет сайту:
 
-- activate a license key;
-- load the catalog of available products;
-- download release packages from the marketplace;
-- validate package structure before installation;
-- install only the files that belong to the package payload;
-- keep the last install, download, and rollback state;
-- roll back the last successful installation when needed.
+- активировать лицензионный ключ;
+- загружать каталог доступных продуктов;
+- скачивать релизные пакеты с marketplace;
+- проверять структуру пакета перед установкой;
+- устанавливать только файлы, которые лежат в `payload/`;
+- хранить состояние последнего скачивания, установки и отката;
+- откатывать последнюю успешную установку, если это нужно.
 
-This module is the client-side part of the system. The marketplace server stores product metadata,
-release metadata, and access rules. The Bitrix module only asks the server what is available and
-then installs the package on the client site.
+Это клиентская часть системы. На сервере marketplace хранятся метаданные продуктов, релизов и правила доступа.
+Модуль Bitrix только запрашивает у сервера доступные данные и ставит пакет на сайт клиента.
 
-## Who this repository is for
+## Для кого этот репозиторий
 
-This repository is meant for:
+Этот репозиторий нужен:
 
-- a developer who wants to understand how `randee.update` works;
-- a Bitrix integrator who needs to install or troubleshoot the module;
-- a maintainer who wants to build a new release ZIP;
-- a beginner who only needs a simple path from installation to update.
+- разработчику, который хочет понять, как работает `randee.update`;
+- интегратору Bitrix, который ставит или отлаживает модуль;
+- сопровождающему, который собирает новый ZIP-релиз;
+- новичку, которому нужен понятный путь от установки до обновления.
 
-If you are new to the project, start with [docs/00-start-here.md](docs/00-start-here.md).
+Если вы только начинаете, откройте [docs/00-start-here.md](docs/00-start-here.md).
 
-## Quick start for beginners
+## Краткий старт
 
-1. Install the module in Bitrix.
-2. Open the marketplace page in the admin panel.
-3. Enter the marketplace URL, license key, and site UID.
-4. Save settings.
-5. Activate the license.
-6. Open a product card.
-7. Download the package.
-8. Run install.
+1. Установите модуль в Bitrix.
+2. Откройте страницу marketplace в админке.
+3. Укажите URL marketplace, лицензионный ключ и UID сайта.
+4. Сохраните настройки.
+5. Активируйте лицензию.
+6. Откройте карточку продукта.
+7. Скачайте пакет.
+8. Запустите установку.
 
-For a more detailed walkthrough, read [docs/01-beginner-guide.md](docs/01-beginner-guide.md).
+Подробный сценарий есть в [docs/01-beginner-guide.md](docs/01-beginner-guide.md).
 
-## Admin entrypoint
+## Точка входа в админку
 
-- marketplace page: `/bitrix/admin/randee_update_marketplace.php`
-- legacy entrypoint: `/bitrix/admin/randee_update.php` redirects to the marketplace page
+- страница marketplace: `/bitrix/admin/randee_update_marketplace.php`
+- старый адрес: `/bitrix/admin/randee_update.php` перенаправляет на страницу marketplace
 
-## Package contract
+## Контракт пакета
 
-Packages must follow the Randee package contract:
+Пакеты должны соответствовать контракту Randee package:
 
-- package format: ZIP;
-- required manifest: `package.json` in the root of the archive;
-- installation root: `payload/`;
-- required fields: `format`, `format_version`, `product_id`, `type`, `version`, `channel`, `release_tag`, `build_number`, `install_root`, `paths`;
-- channel set: `stable`, `beta`, `hotfix`, `dev`.
+- формат пакета: ZIP;
+- обязательный манифест: `package.json` в корне архива;
+- корень установки: `payload/`;
+- обязательные поля: `format`, `format_version`, `product_id`, `type`, `version`, `channel`, `release_tag`, `build_number`, `install_root`, `paths`;
+- допустимые каналы: `stable`, `beta`, `hotfix`, `dev`.
 
-The archive is validated before install. If the manifest is missing or invalid, the module stops
-and reports the reason.
+Архив проверяется перед установкой. Если манифест отсутствует или неверный, модуль останавливается и показывает причину.
 
-## Repository structure
+## Структура репозитория
 
-- `admin/` - Bitrix admin entrypoints.
-- `include.php` - autoload map for module classes.
-- `install/` - installer, version, language files.
-- `lib/` - core runtime classes.
-- `docs/` - beginner and technical documentation.
-- `LICENSE` - project license.
+- `admin/` - точки входа для админки Bitrix.
+- `include.php` - карта автозагрузки классов модуля.
+- `install/` - установщик, версия, языковые файлы.
+- `lib/` - основные runtime-классы.
+- `docs/` - документация для новичка и техническая документация.
+- `LICENSE` - лицензия проекта.
 
-## Main runtime classes
+## Основные классы
 
-- `MarketplaceClient` - talks to the marketplace API.
-- `LicenseManager` - stores and checks license state.
-- `PackageDownloader` - downloads packages to a writable temp directory.
-- `PackageValidator` - checks archive layout and manifest fields.
-- `PackageInstaller` - unpacks and installs files from `payload/`.
-- `RollbackManager` - keeps rollback state.
-- `UpdateLogger` - records install and download events.
-- `VersionComparator` - compares installed and available versions.
+- `MarketplaceClient` - работает с API marketplace.
+- `LicenseManager` - хранит и проверяет состояние лицензии.
+- `PackageDownloader` - скачивает пакеты во временную writable-папку.
+- `PackageValidator` - проверяет структуру архива и поля манифеста.
+- `PackageInstaller` - распаковывает и ставит файлы из `payload/`.
+- `RollbackManager` - хранит состояние отката.
+- `UpdateLogger` - записывает события скачивания и установки.
+- `VersionComparator` - сравнивает установленную и доступную версии.
 
-## Installation flow
+## Схема установки
 
-1. Bitrix registers the module.
-2. The admin page copies its UI files into `/bitrix/admin`.
-3. The admin fills in marketplace settings.
-4. The module calls the marketplace API.
-5. The catalog is loaded.
-6. A package is downloaded into a writable temp folder.
-7. The package is validated.
-8. Files from `payload/` are installed into the Bitrix site.
-9. The installed version is saved locally.
+1. Bitrix регистрирует модуль.
+2. Админская страница копирует свои файлы в `/bitrix/admin`.
+3. Администратор вводит настройки marketplace.
+4. Модуль обращается к API marketplace.
+5. Загружается каталог.
+6. Пакет скачивается во временную папку с правами на запись.
+7. Пакет проверяется.
+8. Файлы из `payload/` устанавливаются на сайт Bitrix.
+9. Установленная версия сохраняется локально.
 
-## Current state
+## Текущее состояние
 
-- module installation and admin integration are live;
-- marketplace catalog and license activation are wired to `updates.c0l.ru`;
-- package validation and install flow are enforced in code;
-- rollback state is stored locally for the last successful install.
+- установка модуля и интеграция с админкой работают;
+- каталог marketplace и активация лицензии подключены к `updates.c0l.ru`;
+- проверка пакета и установка выполняются в коде;
+- состояние отката хранится локально для последней успешной установки.
 
-## Documentation index
+## Индекс документации
 
-- [docs/00-start-here.md](docs/00-start-here.md) - entry point for newcomers.
-- [docs/01-beginner-guide.md](docs/01-beginner-guide.md) - step-by-step beginner guide.
-- [docs/02-package-format.md](docs/02-package-format.md) - ZIP and `package.json` contract.
-- [docs/03-installation-and-troubleshooting.md](docs/03-installation-and-troubleshooting.md) - install, update, errors, and rollback.
-- [docs/04-randee-hero-marketplace-guide.md](docs/04-randee-hero-marketplace-guide.md) - example guide for publishing `randee.hero`.
+- [docs/00-start-here.md](docs/00-start-here.md) - точка входа для новичка.
+- [docs/01-beginner-guide.md](docs/01-beginner-guide.md) - пошаговый гайд для начинающего.
+- [docs/02-package-format.md](docs/02-package-format.md) - контракт ZIP и `package.json`.
+- [docs/03-installation-and-troubleshooting.md](docs/03-installation-and-troubleshooting.md) - установка, обновление, ошибки и откат.
+- [docs/04-randee-hero-marketplace-guide.md](docs/04-randee-hero-marketplace-guide.md) - пример публикации `randee.hero`.

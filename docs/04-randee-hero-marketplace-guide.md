@@ -1,22 +1,22 @@
 # Как добавить `Randee: главный hero` в marketplace
 
-This guide is for a beginner who wants to build the first `randee.hero` package and publish it in `updates.c0l.ru`.
+Этот файл нужен новичку, который хочет собрать свой первый пакет и добавить его в `updates.c0l.ru`.
 
-## 1. What we are creating
+## 1. Что именно создаём
 
-For the hero block we use a `component`, not a `module`.
+Для hero-блока используем `component`, а не `module`.
 
-Recommended values:
+Рекомендуемые значения:
 
 - `name`: `Randee: главный hero`
 - `product_id`: `randee.hero`
 - `type`: `component`
 
-## 2. What must be inside the package
+## 2. Что должно быть внутри пакета
 
-The package is always built as a ZIP archive.
+Пакет всегда собирается как ZIP.
 
-Inside the ZIP there must be only:
+Внутри ZIP должны быть только:
 
 ```text
 package.json
@@ -33,13 +33,13 @@ payload/
               template.php
 ```
 
-If you put extra files into the archive, remove them unless they are really needed by the component.
+Если вы кладёте туда другие файлы, которые не нужны компоненту, лучше их убрать.
 
-## 3. `package.json`
+## 3. Файл `package.json`
 
-This is the main package file. Without it the package is not accepted.
+Это главный файл пакета. Без него пакет не принимается.
 
-Example:
+Пример:
 
 ```json
 {
@@ -64,7 +64,7 @@ Example:
 }
 ```
 
-## 4. Minimal component files
+## 4. Минимальные файлы компонента
 
 ### `.description.php`
 
@@ -132,14 +132,14 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
 </section>
 ```
 
-## 5. What data must exist in Bitrix infoblocks
+## 5. Какие данные должны быть в инфоблоках
 
-The main data source:
+Основной источник данных:
 
 - infoblock ID `1`, symbolic code `randeehero`;
 - infoblock ID `2`, symbolic code `randee_hero_slides`.
 
-The hero component reads from `randeehero`:
+Hero-компонент читает из `randeehero`:
 
 - `TITLE_LINE_1`
 - `TITLE_LINE_2`
@@ -157,13 +157,13 @@ The hero component reads from `randeehero`:
 - `TITLE_SM`
 - `SHOW_MASANYA`
 
-`SCREEN_SLIDES` must point to elements of the `randee_hero_slides` infoblock.
-For slide images the component uses `PREVIEW_PICTURE`.
-If `PREVIEW_PICTURE` is empty, it may use `DETAIL_PICTURE` as a fallback.
+Связь `SCREEN_SLIDES` должна указывать на элементы инфоблока `randee_hero_slides`.
+Картинки для слайдов берутся из `PREVIEW_PICTURE` этих элементов.
+Если `PREVIEW_PICTURE` пустой, компонент может взять `DETAIL_PICTURE` как запасной вариант.
 
-## 6. How to build the ZIP
+## 6. Как собрать ZIP
 
-Build the archive so that `package.json` is in the root of the ZIP and the code is inside `payload/`.
+Собирайте архив так, чтобы `package.json` лежал в корне ZIP, а код - внутри `payload/`.
 
 Correct:
 
@@ -180,41 +180,41 @@ randee-hero/
   payload/...
 ```
 
-## 7. How to add it to marketplace
+## 7. Как добавить в marketplace
 
-1. Open `updates.c0l.ru/admin`.
-2. Go to `Products`.
-3. Create a product:
+1. Откройте `updates.c0l.ru/admin`.
+2. Перейдите в `Products`.
+3. Создайте продукт:
    - `product_id`: `randee.hero`
    - `type`: `component`
    - `name`: `Randee: главный hero`
-4. Go to `Packages`.
-5. Upload the ZIP package.
-6. Go to `Releases`.
-7. Create a release:
+4. Перейдите в `Packages`.
+5. Загрузите ZIP-пакет.
+6. Перейдите в `Releases`.
+7. Создайте релиз:
    - `version`
    - `release_tag`
    - `build_number`
    - `channel`
-   - attach the package
-8. Click `Publish`.
+   - привяжите пакет
+8. Нажмите `Publish`.
 
-After that the component becomes available in the catalog and can be installed through `randee.update`.
+После этого компонент станет доступен в каталоге и сможет устанавливаться через `randee.update`.
 
-## 8. Where it goes on the client site
+## 8. Куда он попадёт на сайте клиента
 
-After installation the files are placed in:
+После установки файлы окажутся в:
 
 ```text
 DOCUMENT_ROOT/local/components/randee/hero/
 ```
 
-## 9. Short rule
+## 9. Короткое правило
 
-If you want the shortest path:
+Если совсем просто:
 
-1. Create the product.
-2. Upload the ZIP.
-3. Create the release.
-4. Publish it.
-5. Only then can the package be installed on the client site.
+1. Сначала создайте продукт.
+2. Потом загрузите ZIP.
+3. Потом создайте релиз.
+4. Потом опубликуйте.
+5. И только после этого пакет можно ставить на сайт клиента.

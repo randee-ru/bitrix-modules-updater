@@ -1,34 +1,33 @@
-# Randee Update - start here
+# Randee Update - начните отсюда
 
-This repository contains the Bitrix client module `randee.update`.
+Этот репозиторий содержит клиентский модуль Bitrix `randee.update`.
 
-If you are new to the project, read this in order:
+Если вы только начинаете, читайте в таком порядке:
 
-1. [README.md](../README.md) - short overview.
-2. [docs/01-beginner-guide.md](01-beginner-guide.md) - what the module does and how to use it.
-3. [docs/02-package-format.md](02-package-format.md) - how a release ZIP must be built.
-4. [docs/03-installation-and-troubleshooting.md](03-installation-and-troubleshooting.md) - common errors and recovery steps.
+1. [README.md](../README.md) - короткий обзор.
+2. [docs/01-beginner-guide.md](01-beginner-guide.md) - что делает модуль и как им пользоваться.
+3. [docs/02-package-format.md](02-package-format.md) - как должен быть собран ZIP-релиз.
+4. [docs/03-installation-and-troubleshooting.md](03-installation-and-troubleshooting.md) - типовые ошибки и что делать.
 
-## One-sentence summary
+## Кратко
 
-`randee.update` is the Bitrix-side client that connects to `updates.c0l.ru`, downloads a release package,
-checks its manifest, installs only the payload, and stores rollback state locally.
+`randee.update` - это клиентская часть для Bitrix, которая подключается к `updates.c0l.ru`, скачивает пакет релиза, проверяет его манифест, ставит только `payload/` и хранит состояние отката локально.
 
-## What lives where
+## Где что хранится
 
-- Marketplace metadata and release records live on the server.
-- The Bitrix module lives in this repository and on the client site.
-- Release archives are built separately and uploaded to the marketplace.
-- Installed files end up in the Bitrix filesystem of the client site.
+- Метаданные marketplace и записи релизов лежат на сервере.
+- Клиентский модуль Bitrix лежит в этом репозитории и на сайте клиента.
+- Архивы релизов собираются отдельно и загружаются в marketplace.
+- Установленные файлы оказываются в файловой системе Bitrix на сайте клиента.
 
-## If you only need the shortest path
+## Если нужен самый короткий путь
 
-1. Install the module.
-2. Open the marketplace page.
-3. Save settings.
-4. Activate the license.
-5. Open a product card.
-6. Download the package.
-7. Install it.
+1. Установите модуль.
+2. Откройте страницу marketplace.
+3. Сохраните настройки.
+4. Активируйте лицензию.
+5. Откройте карточку продукта.
+6. Скачайте пакет.
+7. Установите его.
 
-If a step fails, open [docs/03-installation-and-troubleshooting.md](03-installation-and-troubleshooting.md).
+Если на каком-то шаге возникла ошибка, откройте [docs/03-installation-and-troubleshooting.md](03-installation-and-troubleshooting.md).

@@ -1,58 +1,58 @@
-# Installation and troubleshooting
+# Установка и устранение неполадок
 
-This guide explains how to install `randee.update` and what to check when something fails.
+Этот документ объясняет, как устанавливать `randee.update` и что проверять, если что-то ломается.
 
-## Installation
+## Установка
 
-1. Copy the module to `local/modules/randee.update/`.
-2. Install it from the Bitrix admin panel.
-3. Open the marketplace page.
-4. Save the marketplace URL, license key, and site UID.
-5. Activate the license.
-6. Open a product card.
-7. Download the package.
-8. Install the package.
+1. Скопируйте модуль в `local/modules/randee.update/`.
+2. Установите его из административной панели Bitrix.
+3. Откройте страницу marketplace.
+4. Сохраните URL marketplace, лицензионный ключ и UID сайта.
+5. Активируйте лицензию.
+6. Откройте карточку продукта.
+7. Скачайте пакет.
+8. Установите пакет.
 
-## Where files are written
+## Куда пишутся файлы
 
-- Temporary downloads are stored in a writable temp directory.
-- Installed files are copied into the Bitrix filesystem.
-- Rollback state is stored locally by the module.
+- Временные загрузки сохраняются во writable temp directory.
+- Установленные файлы копируются в файловую систему Bitrix.
+- Состояние отката хранится локально модулем.
 
-## Common issues
+## Типовые проблемы
 
-### `package.json` is missing
+### `package.json` отсутствует
 
-The archive was built incorrectly. Rebuild the ZIP so that `package.json` is in the archive root.
+Архив собран неправильно. Пересоберите ZIP так, чтобы `package.json` лежал в корне архива.
 
 ### `Не удалось создать каталог назначения`
 
-The installer cannot write to the target path. Check filesystem permissions and whether the destination is valid for that product.
+Установщик не может записать файлы в целевой путь. Проверьте права файловой системы и то, что каталог назначения подходит для этого продукта.
 
 ### `Сервер вернул неожиданный ответ`
 
-The module received HTML or another non-JSON response instead of the expected API response.
-Check the marketplace URL, network access, and authentication.
+Модуль получил HTML или другой не-JSON ответ вместо ожидаемого ответа API.
+Проверьте URL marketplace, сетевой доступ и авторизацию.
 
 ### `Не удалось подготовить временный каталог`
 
-The configured temp directory is not writable. Set `temp_dir` in the module settings or let the module use fallback directories.
+Указанный temp-каталог недоступен на запись. Укажите `temp_dir` в настройках модуля или дайте модулю выбрать fallback-каталог автоматически.
 
-## What to check first
+## Что проверить в первую очередь
 
-- Does the Bitrix server reach `updates.c0l.ru`?
-- Is the license active?
-- Is the selected product correct?
-- Is the package ZIP valid?
-- Does `package.json` exist in the archive root?
-- Is the temp directory writable?
+- Доступен ли с сервера Bitrix адрес `updates.c0l.ru`?
+- Активна ли лицензия?
+- Правильно ли выбран продукт?
+- Валиден ли ZIP-пакет?
+- Есть ли `package.json` в корне архива?
+- Доступен ли временный каталог на запись?
 
-## When to use rollback
+## Когда использовать откат
 
-Use rollback when:
+Используйте откат, если:
 
-- the last update broke the site;
-- the package installed but the result is wrong;
-- you need to return to the previous working state.
+- последнее обновление сломало сайт;
+- пакет установился, но результат неверный;
+- нужно вернуть предыдущее рабочее состояние.
 
-Rollback only works for the last successful install that the module has stored locally.
+Откат работает только для последней успешной установки, которую модуль сохранил локально.

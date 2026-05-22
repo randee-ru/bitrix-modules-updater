@@ -1,10 +1,10 @@
-# Randee package format
+# Формат пакета Randee
 
-This document explains how a release ZIP must be built.
+Этот документ объясняет, как должен быть собран ZIP-релиз.
 
-## Required archive layout
+## Обязательная структура архива
 
-The ZIP must contain:
+В ZIP должны быть:
 
 ```text
 package.json
@@ -12,11 +12,11 @@ payload/
   ...
 ```
 
-The `package.json` file must be in the root of the archive.
+Файл `package.json` должен лежать в корне архива.
 
-## Required `package.json` fields
+## Обязательные поля `package.json`
 
-The manifest must include:
+Манифест должен содержать:
 
 - `format`
 - `format_version`
@@ -29,7 +29,7 @@ The manifest must include:
 - `install_root`
 - `paths`
 
-## Example manifest
+## Пример манифеста
 
 ```json
 {
@@ -48,16 +48,16 @@ The manifest must include:
 }
 ```
 
-## Allowed channel values
+## Допустимые значения канала
 
 - `stable`
 - `beta`
 - `hotfix`
 - `dev`
 
-## What the installer checks
+## Что проверяет установщик
 
-Before installation the module checks:
+Перед установкой модуль проверяет:
 
 - that the ZIP can be downloaded;
 - that `package.json` exists;
@@ -66,10 +66,10 @@ Before installation the module checks:
 - that the declared paths are safe;
 - that the package matches the product the admin selected.
 
-## What happens if the manifest is invalid
+## Что происходит, если манифест неверный
 
-If the package is invalid, installation stops and the UI shows the reason.
-Common failures:
+Если пакет неверный, установка останавливается, а интерфейс показывает причину.
+Частые ошибки:
 
 - `package.json` is missing;
 - `format` or `type` is wrong;

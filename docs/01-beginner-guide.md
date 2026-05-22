@@ -1,89 +1,88 @@
-# Randee Update - beginner guide
+# Randee Update - гайд для новичка
 
-This guide explains the module in plain language.
+Этот гайд объясняет модуль простым языком.
 
-## 1. What `randee.update` is
+## 1. Что такое `randee.update`
 
-`randee.update` is the Bitrix client module that installs and updates Randee products.
+`randee.update` - это клиентский модуль Bitrix, который устанавливает и обновляет продукты Randee.
 
-It does not store the marketplace catalog itself. Instead, it asks the marketplace server
-`updates.c0l.ru` what products are available, which versions exist, and whether your license allows them.
+Он не хранит сам каталог marketplace. Вместо этого он спрашивает сервер `updates.c0l.ru`, какие продукты доступны, какие версии существуют и разрешены ли они по вашей лицензии.
 
-## 2. What problems it solves
+## 2. Какие задачи он решает
 
-- You do not need to upload files by hand for every update.
-- The module can install modules, components, and templates from signed packages.
-- The server controls which products are visible for your license.
-- The module keeps rollback data so the last update can be reverted.
+- Не нужно загружать файлы вручную для каждого обновления.
+- Модуль умеет ставить модули, компоненты и шаблоны из подписанных пакетов.
+- Сервер контролирует, какие продукты видны по вашей лицензии.
+- Модуль сохраняет данные отката, чтобы последнюю установку можно было вернуть назад.
 
-## 3. The main parts
+## 3. Основные части
 
-### Marketplace server
+### Сервер marketplace
 
-This is the central service that stores:
+Это центральный сервис, который хранит:
 
-- products;
-- releases;
-- licenses;
-- access rules;
-- package metadata.
+- продукты;
+- релизы;
+- лицензии;
+- правила доступа;
+- метаданные пакетов.
 
-### Bitrix client module
+### Клиентский модуль Bitrix
 
-This repository is the client side. It contains:
+Этот репозиторий - клиентская сторона. В нём есть:
 
-- admin page entrypoints;
-- installer/uninstaller;
-- marketplace API client;
-- package validator;
-- package downloader;
-- package installer;
-- rollback helpers;
-- logging helpers.
+- точки входа для админки;
+- установщик и удаление;
+- клиент API marketplace;
+- проверка пакета;
+- загрузка пакета;
+- установка пакета;
+- вспомогательные функции для отката;
+- логирование.
 
-### Release package
+### Пакет релиза
 
-This is the ZIP file you upload to the marketplace. It must contain:
+Это ZIP-файл, который вы загружаете в marketplace. Внутри должны быть:
 
-- `package.json` in the archive root;
-- a `payload/` folder with the files that will be copied to the Bitrix site.
+- `package.json` в корне архива;
+- папка `payload/` с файлами, которые будут скопированы на сайт Bitrix.
 
-## 4. How a release is installed
+## 4. Как ставится релиз
 
-1. The admin opens the marketplace page in Bitrix.
-2. The module connects to `updates.c0l.ru`.
-3. The license is activated.
-4. The catalog is loaded.
-5. The admin opens a product card.
-6. The package is downloaded to a writable temp directory.
-7. The package is validated.
-8. The installer copies files from `payload/` into the Bitrix filesystem.
-9. The installed version is saved.
-10. The UI shows the result and the current state.
+1. Администратор открывает страницу marketplace в Bitrix.
+2. Модуль подключается к `updates.c0l.ru`.
+3. Лицензия активируется.
+4. Загружается каталог.
+5. Администратор открывает карточку продукта.
+6. Пакет скачивается во временную writable-папку.
+7. Пакет проверяется.
+8. Установщик копирует файлы из `payload/` в файловую систему Bitrix.
+9. Установленная версия сохраняется.
+10. Интерфейс показывает результат и текущее состояние.
 
-## 5. What the manifest means
+## 5. Что означает манифест
 
-`package.json` tells the module:
+`package.json` говорит модулю:
 
-- which product the archive belongs to;
-- what type of product it is;
-- which version it contains;
-- which channel it belongs to;
-- which folders are allowed to be installed;
-- whether the package matches the expected format.
+- какому продукту принадлежит архив;
+- какого типа этот продукт;
+- какую версию он содержит;
+- к какому каналу он относится;
+- какие папки можно ставить;
+- соответствует ли пакет ожидаемому формату.
 
-If `package.json` is missing, the module stops installation.
+Если `package.json` нет, модуль останавливает установку.
 
-## 6. What to do if you are not sure
+## 6. Что делать, если вы не уверены
 
-Read the files in this order:
+Читайте файлы в таком порядке:
 
 - `README.md`
 - `docs/00-start-here.md`
 - `docs/02-package-format.md`
 - `docs/03-installation-and-troubleshooting.md`
 
-If you still need the code flow, inspect:
+Если нужен ещё и путь по коду, смотрите:
 
 - `include.php`
 - `install/index.php`
