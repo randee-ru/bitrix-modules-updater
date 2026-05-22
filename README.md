@@ -106,3 +106,4 @@ and reports the reason.
 - [docs/01-beginner-guide.md](docs/01-beginner-guide.md) - step-by-step beginner guide.
 - [docs/02-package-format.md](docs/02-package-format.md) - ZIP and `package.json` contract.
 - [docs/03-installation-and-troubleshooting.md](docs/03-installation-and-troubleshooting.md) - install, update, errors, and rollback.
+- [docs/04-randee-hero-marketplace-guide.md](docs/04-randee-hero-marketplace-guide.md) - example guide for publishing `randee.hero`.
